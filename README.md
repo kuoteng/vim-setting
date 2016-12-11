@@ -8,16 +8,19 @@
 ```
 git clone https://github.com/rapirent/vimrc.git
 ```
+
 2. execute the script
 ```
 cd vimrc
 sh ./install.sh
 ```
+
 3. execute the vim, and enter the command
 ```
 vim
 :PlugInstall
 ```
+
 4. quit the vim by command
 ```
 :q!

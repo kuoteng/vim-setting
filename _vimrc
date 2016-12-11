@@ -36,6 +36,7 @@ syntax on                   "highlight syntax
 syntax enable               "same as above
 set nu                      "monitor the line number
 set tabstop=4
+set expandtab               "以space取代tab
 set cursorline              "monitor the cursor location
 set bg=dark                 "avoid losing comment syntax
 set ruler                   "monitor 行,列 目前在文件的位置
@@ -51,5 +52,12 @@ set smarttab
 filetype indent on          "indent according file format
 
 colorscheme apprentice
-
+"hot key
 map <C-n> :NERDTreeToggle<CR>
+"auto syntax
+inoremap ( ()<Esc>i
+inoremap " ""<Esc>i
+inoremap ' ''<Esc>i
+inoremap [ []<Esc>i
+inoremap { {}<Esc>i
+inoremap {<CR> {<CR>}<Esc>ko<tab>
