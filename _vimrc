@@ -25,6 +25,7 @@ Plug 'romainl/Apprentice'
 Plug 'vim-airline/vim-airline'
 Plug 'fugalh/desert.vim'
 Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -48,5 +49,7 @@ set shiftwidth=4
 set tabstop=4
 set smarttab
 filetype indent on          "indent according file format
-colorscheme apprentice      "the style
+
+colorscheme apprentice
+
 map <C-n> :NERDTreeToggle<CR>
