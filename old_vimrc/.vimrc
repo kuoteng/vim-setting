@@ -49,7 +49,7 @@ set smartindent
 set shiftwidth=4
 set tabstop=4
 set smarttab
-set mouse=a                 "let mouse to visual
+"set mouse=a                 "let mouse to visual
 filetype indent on          "indent according file format
 
 colorscheme apprentice
@@ -69,7 +69,7 @@ inoremap {<CR> {<CR>}<Esc>ko<tab>
 ""vmap <C-v> c<ESC>"+p
 ""imap <C-v> <ESC>"+pa
 "set clipboard+=unnamed  " use the clipboards of vim and win
-set paste               " Paste from a windows or from vim
-set go+=a               " Visual selection automatically copied to the clipboard
+"set paste               " Paste from a windows or from vim
+"set go+=a               " Visual selection automatically copied to the clipboard
 set clipboard=unnamedplus
 
