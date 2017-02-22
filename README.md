@@ -18,7 +18,9 @@ sh ./install.sh
 3. execute the vim, and enter the command
 ```
 vim
+:PlugClean
 :PlugInstall
+:PlugUpdate
 ```
 
 4. quit the vim by command
