@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo apt install exuberant-ctags ack-grep
 if [ -f "$HOME/.vimrc" ]; then
 	if [ ! -e "./old_vimrc" ]; then
 		mkdir old_vimrc
