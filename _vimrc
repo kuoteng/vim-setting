@@ -67,9 +67,9 @@ Plug 'plasticboy/vim-markdown'
 Plug 'majutsushi/tagbar'
 
 "theme
-Plug 'romainl/Apprentice'
+"Plug 'romainl/Apprentice'
 Plug 'fugalh/desert.vim'
-Plug 'tomasr/molokai'
+"Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
 
 " Add plugins to &runtimepath
@@ -99,8 +99,14 @@ set smarttab
 set mouse=a                 "let mouse to visual
 filetype indent on          "indent according file format
 
-colorscheme apprentice
-
+syntax enable
+let g:solarized_termcolors=256
+if has('gui_running')
+    set background=light
+else
+    set background=dark
+endif
+colorscheme solarized
 
 
 "auto syntax
@@ -217,7 +223,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 " set number toggle
 
 nmap <leader>n :set nu!<CR>
-nmap <C-z> :u<CR>
+" nmap <C-z> :u<CR>
 
 " navigate windows with meta(alt)+arrows
 map <M-Right> <c-w>l
