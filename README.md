@@ -1,19 +1,16 @@
 # vimrc
 
-## Summary
-- 這是我的vimrc，最後修改時間:12/10, 2016
+- 參考:fisa-vim-config
 
-## How to
+## Plugins
+
+## How to use
 1. clone the repo
 ```
 git clone https://github.com/rapirent/vimrc.git
 ```
 
-2. execute the script
-```
-cd vimrc
-sh ./install.sh
-```
+2. copy the `_vimrc` as the `.vimrc` to the $HOME directory
 
 3. execute the vim, and enter the command
 ```
@@ -21,12 +18,9 @@ vim
 :PlugClean
 :PlugInstall
 :PlugUpdate
-```
-
-4. quit the vim by command
-```
 :q!
 ```
 
 ## tips of vim
 https://hackmd.io/EwBgjGCGCcAsDGBaA7GaBmRsCmNHWGgDYUAzeUgE0pGhFISA
+

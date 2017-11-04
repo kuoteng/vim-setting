@@ -72,6 +72,9 @@ Plug 'fugalh/desert.vim'
 "Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
 
+"dictionary
+Plug 'chusiang/vim-sdcv'
+
 " Add plugins to &runtimepath
 call plug#end()
 
