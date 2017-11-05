@@ -123,7 +123,7 @@ inoremap {<CR> {<CR>}<Esc>ko
 
 " copy and paste
 "set clipboard+=unnamed  " use the clipboards of vim on win
-set clipboard^=unnamed,unnamedplusset
+set clipboard^=unnamed,unnamedplus
 
 " -------------------
 " toggle tagbar display
