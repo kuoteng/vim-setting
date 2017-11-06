@@ -121,9 +121,11 @@ inoremap { {}<Esc>i
 "inoremap {<CR> {<CR>}<Esc>ko<tab>
 inoremap {<CR> {<CR>}<Esc>ko
 
+" ruler
+let &colorcolumn="80,".join(range(120,999),",")
 " copy and paste
 "set clipboard+=unnamed  " use the clipboards of vim on win
-set clipboard^=unnamed,unnamedplus
+set clipboard=unnamedplus
 
 " -------------------
 " toggle tagbar display
