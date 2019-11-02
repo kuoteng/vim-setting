@@ -21,9 +21,8 @@ endif
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
-Plug 'kien/tabman.vim'
+"Plug 'kien/tabman.vim'
 Plug 'honza/vim-snippets'
-Plug 'scrooloose/nerdcommenter'
 Plug 'vim-scripts/mru.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'lilydjwg/colorizer'
@@ -44,14 +43,21 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 
 
 " navigate windows with meta(alt)+arrows
-map <M-Right> <c-w>l
-map <M-Left> <c-w>h
-map <M-Up> <c-w>k
-map <M-Down> <c-w>j
-imap <M-Right> <ESC><c-w>l
-imap <M-Left> <ESC><c-w>h
-imap <M-Up> <ESC><c-w>k
-imap <M-Down> <ESC><c-w>j
+map <S-Right> <c-w>l
+map <S-Left> <c-w>h
+map <S-Up> <c-w>k
+map <S-Down> <c-w>j
+imap <S-Right> <ESC><c-w>l
+imap <S-Left> <ESC><c-w>h
+imap <S-Up> <ESC><c-w>k
+imap <S-Down> <ESC><c-w>j
+
+map <C-l> :tabn<CR>
+map <C-h> :tabp<CR>
+map <C-b> :tabnew<CR>
+map <S-b> :tabclose<CR>
+"map <S-Right> :tabn<CR>
+"map <S-Left> :tabp<CR>
 
 "auto syntax
 "inoremap ( ()<Esc>i
@@ -86,6 +92,8 @@ set tabstop=4
 set smarttab
 set mouse=a                 "let mouse to visual
 
+let NERDTreeWinPos="right"
+let NERDTreeMapOpenInTab='<ENTER>'
 let g:solarized_termcolors=256
 set background=light
 "set background=dark
