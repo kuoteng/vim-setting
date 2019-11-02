@@ -6,19 +6,13 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-if has('nvim') && empty(glob(stdpath('data') . '/plugged'))
-    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-let plug_location = expand('~/.vim/plugged')
-
-if has('nvim')
-    plug_location = stdpath('data') . '/plugged'
-endif
-
-call plug#begin(plug_location)
+call plug#begin('~/.vim/plugged')
 
 if has('nvim')
   Plug 'benekastah/neomake'
