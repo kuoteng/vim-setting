@@ -27,6 +27,7 @@ Plug 'vim-scripts/mru.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'lilydjwg/colorizer'
 Plug 'vim-scripts/IndexedSearch'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
@@ -37,7 +38,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='solarized'
 
 
-map <C-n> :NERDTreeToggle<CR>
+map <C-p> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
@@ -54,10 +55,22 @@ imap <S-Down> <ESC><c-w>j
 
 map <C-l> :tabn<CR>
 map <C-h> :tabp<CR>
-map <C-b> :tabnew<CR>
-map <S-b> :tabclose<CR>
+map <C-e> :tabnew<CR>
+map <S-e> :tabclose<CR>
 "map <S-Right> :tabn<CR>
 "map <S-Left> :tabp<CR>
+
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_start_word_key      = '<C-n>'
+let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_select_all_key      = 'g<A-n>'
+let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 
 "auto syntax
 "inoremap ( ()<Esc>i
