@@ -1,28 +1,21 @@
 "set the vim plugin
 
-let vim_plug_just_installed = 0
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  vim_plug_justinstalled = 1
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-if has('nvim') && empty(glob('~/.vim/autoload/plug.vim'))
+if has('nvim') && empty(glob(stdpath('data') . '/plugged'))
     silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    vim_plug_justinstalled = 1
 endif
 
-let plug_location = '~/.vim/plugged'
+let plug_location = expand('~/.vim/plugged')
 
 if has('nvim')
     plug_location = stdpath('data') . '/plugged'
-endif
-
-if vim_plug_just_installed
-    :execute 'source '.fnameescape(vim_plug_path)
 endif
 
 call plug#begin(plug_location)
