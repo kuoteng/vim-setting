@@ -8,11 +8,28 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   vim_plug_justinstalled = 1
 endif
 
+if has('nvim') && empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    vim_plug_justinstalled = 1
+endif
+
+let plug_location = '~/.vim/plugged'
+
+if has('nvim')
+    plug_location = stdpath('data') . '/plugged'
+endif
+
 if vim_plug_just_installed
     :execute 'source '.fnameescape(vim_plug_path)
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin(plug_location)
+
+if has('nvim')
+  Plug 'benekastah/neomake'
+endif
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdtree'
