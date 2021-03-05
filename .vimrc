@@ -27,7 +27,7 @@ set cursorline              "monitor the cursor location
 set ruler                   "monitor 行,列 目前在文件的位置
 set hlsearch                "highlight the search result設定高亮顯示搜尋結果
 set confirm                 "ask when there is conflit
-set history=50
+set history=1000
 set incsearch               "monitor fit tip
 set cindent                 "C/C++ auto indent
 set smartindent
@@ -53,11 +53,12 @@ augroup files
     autocmd!
     autocmd FileType html,javascript setlocal shiftwidth=2 tabstop=2
     autocmd FileType python,php,c,cpp,java setlocal expandtab shiftwidth=4 softtabstop=4
+    autocmd FileType c,cpp,java set mps+==:;
 augroup END
-"autocmd FileType python,c,cpp,java,php autocmd BufWritePre <buffer> %s/\s\+$//e
 let mapleader = ","
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
 nnoremap <silent> <leader>s :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
 augroup trim_space
     autocmd!
@@ -74,14 +75,37 @@ function Hardmode()
     imap <Down> <Nop>
     imap <BS> <Nop>
     imap <Del> <Nop>
-    inoremap <C-k> <C-o>gk
-    inoremap <C-h> <Left>
-    inoremap <C-l> <Right>
-    inoremap <C-j> <C-o>gj
-    nnoremap <C-k> <C-w>k
-    nnoremap <C-h> <C-w>h
-    nnoremap <C-l> <C-w>l
-    nnoremap <C-j> <C-w>j
+    if s:OS == "OSX"
+        nnoremap <Esc>h 5h
+        nnoremap <Esc>j 5j
+        nnoremap <Esc>k 5k
+        nnoremap <Esc>l 5l
+        inoremap <Esc>h <Left>
+        inoremap <Esc>j <Down>
+        inoremap <Esc>k <Up>
+        inoremap <Esc>l <Right>
+        vnoremap <Esc>h <Left>
+        vnoremap <Esc>j <Down>
+        vnoremap <Esc>k <Up>
+        vnoremap <Esc>l <Right>
+    else
+        nnoremap <M-h> 5h
+        nnoremap <M-j> 5j
+        nnoremap <M-k> 5k
+        nnoremap <M-l> 5l
+        inoremap <M-h> <Left>
+        inoremap <M-j> <Down>
+        inoremap <M-k> <Up>
+        inoremap <M-l> <Right>
+    endif
+    "inoremap <C>k <C-o>gk
+    "inoremap <C>h <Left>
+    "inoremap <C>l <Right>
+    "inoremap <C>j <C-o>gj
+    "nnoremap <C>k <C-w>k
+    "nnoremap <C>h <C-w>h
+    "nnoremap <C>l <C-w>l
+    "nnoremap <C>j <C-w>j
 endfunction
 
 function Easymode()
@@ -97,14 +121,25 @@ function Easymode()
     silent! iunmap <Down>
     silent! iunmap <BS>
     silent! iunmap <Del>
-    nnoremap <M-h> 5h
-    nnoremap <M-j> 5j
-    nnoremap <M-k> 5k
-    nnoremap <M-l> 5l
-    inoremap <M-h> <Left>
-    inoremap <M-j> <Down>
-    inoremap <M-k> <Up>
-    inoremap <M-j> <Right>
+    if s:OS == "OSX"
+        nnoremap <Esc>h 3h
+        nnoremap <Esc>j 3j
+        nnoremap <Esc>k 3k
+        nnoremap <Esc>l 3l
+        inoremap <Esc>h <Left>
+        inoremap <Esc>j <Down>
+        inoremap <Esc>k <Up>
+        inoremap <Esc>l <Right>
+    else
+        nnoremap <M-h> 5h
+        nnoremap <M-j> 5j
+        nnoremap <M-k> 5k
+        nnoremap <M-l> 5l
+        inoremap <M-h> <Left>
+        inoremap <M-j> <Down>
+        inoremap <M-k> <Up>
+        inoremap <M-l> <Right>
+    endif
     "noremap <S-Right> <c-w>l
     "noremap <S-Left> <c-w>h
     "noremap <S-Up> <c-w>k
@@ -116,11 +151,18 @@ function Easymode()
     "noremap <C-h> :tabp<CR>
 endfunction
 call Easymode()
-inoremap jk <esc>
+inoremap jk <Esc>
 noremap <S-l> :tabn<CR>
 noremap <S-h> :tabp<CR>
-noremap <leader><S-e> :tabnew<CR>
-noremap <S-e> :tabclose<CR>
+noremap <leader><S>e :tabnew<CR>
+noremap <leader> :tabclose<CR>
+"use Shift_p to multi paste (copy same text after paste)
+xnoremap <S-p> pgvy
+"use Ctrl_o instead
+"inoremap <Esc>x <Del>
+"inoremap <M-x> <Del>
+"inoremap <Esc>X <Esc>Xa
+"inoremap <M-X> <Esc>Xa
 "noremap <S-Right> :tabn<CR>
 "noremap <S-Left> :tabp<CR>
 
@@ -151,7 +193,12 @@ endif
 Plug 'mhinz/vim-startify'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'jiangmiao/auto-pairs'
-Plug 'scrooloose/nerdtree'
+if has('nvim')
+    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'kristijanhusak/defx-git'
+else
+    Plug 'scrooloose/nerdtree'
+endif
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
@@ -166,7 +213,9 @@ Plug 'vim-scripts/IndexedSearch'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
-Plug 'tpope/vim-capslock'
+Plug 'mileszs/ack.vim'
+Plug 'vimwiki/vimwiki'
+"Plug 'tpope/vim-capslock'
 
 call plug#end()
 "Airline
@@ -174,16 +223,61 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='solarized'
 
-"NERDTREE
-map <C-p> :NERDTreeToggle<CR>
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let NERDTreeWinPos="right"
-let NERDTreeShowHidden=1
-let NERDTreeMapOpenInTab='<ENTER>'
+"NERDTREE or defx
+if has('nvim')
+    set modifiable
+    map <C-p> :Defx -split=vertical -winwidth=50 -direction=botright -toggle<CR>
+    autocmd BufWritePost * call defx#redraw()
+    autocmd FileType defx call s:defx_my_settings()
+	function! s:defx_my_settings() abort
+	  " Define mappings
+      " nnoremap <silent><buffer><expr> <CR>
+		\ defx#is_directory() ?
+		\ defx#do_action('open_directory') :
+		\ defx#do_action('multi', ['drop', 'quit'])
+        nnoremap <silent><buffer><expr> <CR>
+                  \ defx#do_action('open')
+        nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('open')
+	endfunction
+    let g:defx_git#indicators = {
+                \ 'Modified'  : '✹',
+                \ 'Staged'    : '✚',
+                \ 'Untracked' : '✭',
+                \ 'Renamed'   : '➜',
+                \ 'Unmerged'  : '═',
+                \ 'Ignored'   : '☒',
+                \ 'Deleted'   : '✖',
+                \ 'Unknown'   : '?'
+                \ }
+    let g:defx_git#column_length = 0
+    hi def link Defx_filename_directory NERDTreeDirSlash
+    hi def link Defx_git_Modified Special
+    hi def link Defx_git_Staged Function
+    hi def link Defx_git_Renamed Title
+    hi def link Defx_git_Unmerged Label
+    hi def link Defx_git_Untracked Tag
+    hi def link Defx_git_Ignored Comment
+else
+    map <C-p> :NERDTreeToggle<CR>
+    let g:NERDTreeDirArrowExpandable = '▸'
+    let g:NERDTreeDirArrowCollapsible = '▾'
+    let NERDTreeWinPos="right"
+    let NERDTreeShowHidden=1
+    let NERDTreeMapOpenInTab='<ENTER>'
+endif
+
 let g:solarized_termcolors=256
 "set background=light
 set background=dark
 colorscheme solarized
+"ack
+if executable('ag')
+    let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
 
-
+"augroup show_sapces
+"    autocmd!
+"    autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+"augroup END
+highlight RedundantSpaces ctermbg=red guibg=red
+match RedundantSpaces /\s\+$/
