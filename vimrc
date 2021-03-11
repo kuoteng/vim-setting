@@ -155,7 +155,7 @@ inoremap jk <Esc>
 noremap <S-l> :tabn<CR>
 noremap <S-h> :tabp<CR>
 noremap <leader><S>e :tabnew<CR>
-noremap <leader> :tabclose<CR>
+noremap <leader>c :tabclose<CR>
 "use Shift_p to multi paste (copy same text after paste)
 xnoremap <S-p> pgvy
 "use Ctrl_o instead
@@ -169,6 +169,9 @@ xnoremap <S-p> pgvy
 "terminal
 "noremap <C-q> :sh<cr>
 noremap <C-a> :term<cr>
+
+" nvim python3 configure
+let g:python3_host_prog='/home/kuoteng/.pyenv/versions/nvim-3.8.5/bin/python3.8'
 
 "set the vim plugin
 
@@ -186,19 +189,26 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+" search
+if has('python3')
+    Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+endif
+
+Plug 'scrooloose/nerdtree'
+Plug 'lambdalisue/suda.vim'
 if has('nvim')
-  Plug 'benekastah/neomake'
+  "Plug 'benekastah/neomake'
+  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
 
 Plug 'mhinz/vim-startify'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'jiangmiao/auto-pairs'
-if has('nvim')
-    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'kristijanhusak/defx-git'
-else
-    Plug 'scrooloose/nerdtree'
-endif
+"if has('nvim')
+"    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+"    Plug 'kristijanhusak/defx-git'
+"else
+"endif
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
@@ -223,49 +233,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='solarized'
 
-"NERDTREE or defx
-if has('nvim')
-    set modifiable
-    map <C-p> :Defx -split=vertical -winwidth=50 -direction=botright -toggle<CR>
-    autocmd BufWritePost * call defx#redraw()
-    autocmd FileType defx call s:defx_my_settings()
-	function! s:defx_my_settings() abort
-	  " Define mappings
-      " nnoremap <silent><buffer><expr> <CR>
-		\ defx#is_directory() ?
-		\ defx#do_action('open_directory') :
-		\ defx#do_action('multi', ['drop', 'quit'])
-        nnoremap <silent><buffer><expr> <CR>
-                  \ defx#do_action('open')
-        nnoremap <silent><buffer><expr> <2-LeftMouse> defx#do_action('open')
-	endfunction
-    let g:defx_git#indicators = {
-                \ 'Modified'  : '✹',
-                \ 'Staged'    : '✚',
-                \ 'Untracked' : '✭',
-                \ 'Renamed'   : '➜',
-                \ 'Unmerged'  : '═',
-                \ 'Ignored'   : '☒',
-                \ 'Deleted'   : '✖',
-                \ 'Unknown'   : '?'
-                \ }
-    let g:defx_git#column_length = 0
-    hi def link Defx_filename_directory NERDTreeDirSlash
-    hi def link Defx_git_Modified Special
-    hi def link Defx_git_Staged Function
-    hi def link Defx_git_Renamed Title
-    hi def link Defx_git_Unmerged Label
-    hi def link Defx_git_Untracked Tag
-    hi def link Defx_git_Ignored Comment
-else
-    map <C-p> :NERDTreeToggle<CR>
-    let g:NERDTreeDirArrowExpandable = '▸'
-    let g:NERDTreeDirArrowCollapsible = '▾'
-    let NERDTreeWinPos="right"
-    let NERDTreeShowHidden=1
-    let NERDTreeMapOpenInTab='<ENTER>'
-endif
-
 let g:solarized_termcolors=256
 "set background=light
 set background=dark
@@ -275,9 +242,35 @@ if executable('ag')
     let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
 
+let g:Lf_ShortcutF = '<leader>ff'
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 "augroup show_sapces
 "    autocmd!
 "    autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 "augroup END
 highlight RedundantSpaces ctermbg=red guibg=red
 match RedundantSpaces /\s\+$/
+
+map <C-p> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let NERDTreeWinPos="right"
+let NERDTreeShowHidden=1
+let NERDTreeMapOpenInTab='<ENTER>'
+
+if has('nvim')
+"coc
+    "check extensions
+    "coc-css
+    "coc-git
+    "coc-html
+    "coc-highlight
+    "coc-pyright
+    "coc-json
+    "coc-explorer
+    "nnoremap <C-p> :CocCommand explorer<CR>
+    "let g:coc_global_extensions = ['coc-json', 'coc-git']
+endif
