@@ -64,7 +64,7 @@ augroup trim_space
     autocmd!
     autocmd FileType c,cpp,java,php,javascript autocmd BufWritePre <buffer> %s/\s\+$//e
 augroup END
-function Hardmode()
+function! Hardmode()
     map <Left> <Nop>
     map <Right> <Nop>
     map <Up> <Nop>
@@ -108,7 +108,7 @@ function Hardmode()
     "nnoremap <C>j <C-w>j
 endfunction
 
-function Easymode()
+function! Easymode()
     silent! unmap <Right>
     silent! unmap <Left>
     silent! unmap <Up>
@@ -171,8 +171,8 @@ xnoremap <S-p> pgvy
 noremap <C-a> :term<cr>
 
 " nvim python3 configure
-let g:python3_host_prog='/home/kuoteng/.pyenv/versions/nvim-3.8.5/bin/python3.8'
-
+let g:python3_host_prog='~/.pyenv/versions/nvim-3.8.5/bin/python3.8'
+let g:node_host_prog='~/.nodenv/versions/15.8.0/bin/neovim-node-host'
 "set the vim plugin
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -190,25 +190,84 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " search
-if has('python3')
+if !empty(glob(g:python3_host_prog))
     Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+    let g:Lf_WindowPosition = 'popup'
+    let g:Lf_PreviewInPopup = 1
+    let g:Lf_ShortcutF = "<leader>ff"
+endif    
+
+let g:coc_global_extensions = [
+    \'coc-json', 
+    \'coc-git',
+    \'coc-html',
+    \'coc-highlight',
+    \'coc-explorer',
+    \'coc-pyright',
+    \'coc-pairs'
+\]
+if empty(glob(g:node_host_prog))
+    Plug 'scrooloose/nerdtree'
+    map <C-p> :NERDTreeToggle<CR>
+    let g:NERDTreeDirArrowExpandable = '▸'
+    let g:NERDTreeDirArrowCollapsible = '▾'
+    let NERDTreeWinPos="right"
+    let NERDTreeShowHidden=1
+    let NERDTreeMapOpenInTab='<ENTER>'
+else
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    nnoremap <C-p> :CocCommand explorer<CR>
+    nnoremap <Leader>er :call CocAction('runCommand', 'explorer.doAction', 'closest', ['reveal:0'], [['relative', 0, 'file']])<CR>
+    let g:coc_explorer_global_presets = {
+                \   '.vim': {
+                \     'root-uri': '~/.vim',
+                \   },
+                \   'cocConfig': {
+                \      'root-uri': '~/.config/coc',
+                \   },
+                \   'tab': {
+                \     'position': 'tab',
+                \     'quit-on-open': v:true,
+                \   },
+                \   'floating': {
+                \     'position': 'floating',
+                \     'open-action-strategy': 'sourceWindow',
+                \   },
+                \   'floatingTop': {
+                \     'position': 'floating',
+                \     'floating-position': 'center-top',
+                \     'open-action-strategy': 'sourceWindow',
+                \   },
+                \   'floatingLeftside': {
+                \     'position': 'floating',
+                \     'floating-position': 'left-center',
+                \     'floating-width': 50,
+                \     'open-action-strategy': 'sourceWindow',
+                \   },
+                \   'floatingRightside': {
+                \     'position': 'floating',
+                \     'floating-position': 'right-center',
+                \     'floating-width': 50,
+                \     'open-action-strategy': 'sourceWindow',
+                \   },
+                \   'simplify': {
+                \     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+                \   },
+                \   'buffer': {
+                \     'sources': [{'name': 'buffer', 'expand': v:true}]
+                \   },
+                \ }
+    nnoremap <Leader><C-p> :CocCommand explorer --preset floating<CR>
 endif
 
-Plug 'scrooloose/nerdtree'
-Plug 'lambdalisue/suda.vim'
 if has('nvim')
-  "Plug 'benekastah/neomake'
-  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'lambdalisue/suda.vim'
 endif
 
 Plug 'mhinz/vim-startify'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'jiangmiao/auto-pairs'
-"if has('nvim')
-"    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-"    Plug 'kristijanhusak/defx-git'
-"else
-"endif
+"Plug 'jiangmiao/auto-pairs'
+"Plug 'luochen1990/rainbow'
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
@@ -254,23 +313,4 @@ let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 highlight RedundantSpaces ctermbg=red guibg=red
 match RedundantSpaces /\s\+$/
 
-map <C-p> :NERDTreeToggle<CR>
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let NERDTreeWinPos="right"
-let NERDTreeShowHidden=1
-let NERDTreeMapOpenInTab='<ENTER>'
-
-if has('nvim')
-"coc
-    "check extensions
-    "coc-css
-    "coc-git
-    "coc-html
-    "coc-highlight
-    "coc-pyright
-    "coc-json
-    "coc-explorer
-    "nnoremap <C-p> :CocCommand explorer<CR>
-    "let g:coc_global_extensions = ['coc-json', 'coc-git']
-endif
+let g:rainbow_active = 1
