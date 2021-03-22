@@ -267,14 +267,13 @@ endif
 Plug 'mhinz/vim-startify'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 "Plug 'jiangmiao/auto-pairs'
-"Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow'
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'mzlogin/vim-markdown-toc'
 "Plug 'kien/tabman.vim'
 "Plug 'honza/vim-snippets'
-"Plug 'vim-scripts/mru.vim'
 Plug 'mhinz/vim-startify'
 Plug 'kshenoy/vim-signature'
 Plug 'lilydjwg/colorizer'
@@ -282,7 +281,6 @@ Plug 'vim-scripts/IndexedSearch'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
-Plug 'mileszs/ack.vim'
 Plug 'vimwiki/vimwiki'
 "Plug 'tpope/vim-capslock'
 
@@ -296,16 +294,16 @@ let g:solarized_termcolors=256
 "set background=light
 set background=dark
 colorscheme solarized
-"ack
-if executable('ag')
-    let g:ackprg = 'ag --nogroup --nocolor --column'
-endif
 
 let g:Lf_ShortcutF = '<leader>ff'
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+noremap <leader>f :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+xnoremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+noremap <leader>go :<C-U>Leaderf! rg --recall<CR>
 "augroup show_sapces
 "    autocmd!
 "    autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
