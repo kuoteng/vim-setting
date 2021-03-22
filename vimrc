@@ -229,15 +229,6 @@ else
                 \     'position': 'tab',
                 \     'quit-on-open': v:true,
                 \   },
-                \   'floating': {
-                \     'position': 'floating',
-                \     'open-action-strategy': 'sourceWindow',
-                \   },
-                \   'floatingTop': {
-                \     'position': 'floating',
-                \     'floating-position': 'center-top',
-                \     'open-action-strategy': 'sourceWindow',
-                \   },
                 \   'floatingLeftside': {
                 \     'position': 'floating',
                 \     'floating-position': 'left-center',
@@ -259,6 +250,16 @@ else
                 \ }
     nnoremap <Leader><C-p> :CocCommand explorer --preset floating<CR>
 endif
+"https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
+"set termguicolors
+set pumblend=10
+"let winid = nvim_open_win(bufnr(''), v:false, {'relative': 'cursor', 'height': 3, 'width': 10, 'row': 1, 'col': 1})
+augroup transparent-windows
+  autocmd!
+  autocmd User CocOpenFloat call setwinvar(g:coc_last_float_win, "&winblend", 15)
+  "autocmd FileType coc set winblend=10
+  "autocmd FileType  set winblend=10
+augroup END
 
 if has('nvim')
     Plug 'lambdalisue/suda.vim'
@@ -306,6 +307,9 @@ let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+"noremap <leader>fc :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
+
+
 "augroup show_sapces
 "    autocmd!
 "    autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
