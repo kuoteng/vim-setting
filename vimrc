@@ -312,5 +312,7 @@ highlight RedundantSpaces ctermbg=red guibg=red
 match RedundantSpaces /\s\+$/
 
 let g:rainbow_active = 1
-let g:vimwiki_list = [{'path': '~/vimwiki/',
+let g:vimwiki_list = [{'path': '~/.nb/home/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
+
+nnoremap <Leader>wn <Plug>VimwikiNextLink
