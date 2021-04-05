@@ -192,9 +192,15 @@ call plug#begin('~/.vim/plugged')
 " search
 if !empty(glob(g:python3_host_prog))
     Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+    let g:Lf_ShortcutF = '<leader>ff'
     let g:Lf_WindowPosition = 'popup'
     let g:Lf_PreviewInPopup = 1
-    let g:Lf_ShortcutF = "<leader>ff"
+    let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+    let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+    noremap <leader>f :Leaderf rg<Cr>
+    noremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+    xnoremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+    noremap <leader>go :<C-U>Leaderf! rg --recall<CR>
 endif
 
 let g:coc_global_extensions = [
@@ -204,7 +210,8 @@ let g:coc_global_extensions = [
     \'coc-highlight',
     \'coc-explorer',
     \'coc-pyright',
-    \'coc-pairs'
+    \'coc-pairs',
+    \'coc-snippets'
 \]
 if empty(glob(g:node_host_prog))
     Plug 'scrooloose/nerdtree'
@@ -249,6 +256,35 @@ else
                 \   },
                 \ }
     nnoremap <Leader><C-p> :CocCommand explorer --preset floating<CR>
+    " Use <C-l> for trigger snippet expand.
+    imap <C-l> <Plug>(coc-snippets-expand)
+
+    " Use <C-j> for select text for visual placeholder of snippet.
+    vmap <C-j> <Plug>(coc-snippets-select)
+
+    " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+    let g:coc_snippet_next = '<c-j>'
+
+    " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+    let g:coc_snippet_prev = '<c-k>'
+
+    " Use <C-j> for both expand and jump (make expand higher priority.)
+    imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+    " Use <leader>x for convert visual selected code to snippet
+    xmap <leader>x  <Plug>(coc-convert-snippet)
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? coc#_select_confirm() :
+          \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    let g:coc_snippet_next = '<tab>'
 endif
 "https://qiita.com/delphinus/items/a202d0724a388f6cdbc3
 "set termguicolors
@@ -274,7 +310,6 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'mzlogin/vim-markdown-toc'
 "Plug 'kien/tabman.vim'
-"Plug 'honza/vim-snippets'
 Plug 'mhinz/vim-startify'
 Plug 'kshenoy/vim-signature'
 Plug 'lilydjwg/colorizer'
@@ -283,6 +318,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'vimwiki/vimwiki'
+Plug 'bfrg/vim-cpp-modern'
 "Plug 'tpope/vim-capslock'
 
 call plug#end()
@@ -296,15 +332,6 @@ let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
 
-let g:Lf_ShortcutF = '<leader>ff'
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
-let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
-noremap <leader>f :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
-noremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
-xnoremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-noremap <leader>go :<C-U>Leaderf! rg --recall<CR>
 "augroup show_sapces
 "    autocmd!
 "    autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
