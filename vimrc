@@ -54,6 +54,7 @@ augroup files
     autocmd FileType html,javascript setlocal shiftwidth=2 tabstop=2
     autocmd FileType python,php,c,cpp,java setlocal expandtab shiftwidth=4 softtabstop=4
     autocmd FileType c,cpp,java set mps+==:;
+    autocmd BufNewFile,BufFilePre,BufRead *.md setlocal noautoindent nocindent nosmartindent
 augroup END
 let mapleader = ","
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -130,6 +131,14 @@ function! Easymode()
         inoremap <Esc>j <Down>
         inoremap <Esc>k <Up>
         inoremap <Esc>l <Right>
+        "nnoremap <M-h> 5h
+        "nnoremap <M-j> 5j
+        "nnoremap <M-k> 5k
+        "nnoremap <M-l> 5l
+        "inoremap <M-h> <Left>
+        "inoremap <M-j> <Down>
+        "inoremap <M-k> <Up>
+        "inoremap <M-l> <Right>
     else
         nnoremap <M-h> 5h
         nnoremap <M-j> 5j
@@ -198,9 +207,9 @@ if !empty(glob(g:python3_host_prog))
     let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
     let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
     noremap <leader>f :Leaderf rg<Cr>
-    noremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
-    xnoremap <leader>gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-    noremap <leader>go :<C-U>Leaderf! rg --recall<CR>
+    noremap <leader>fw :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+    xnoremap <leader>fw :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+    noremap <leader>fr :<C-U>Leaderf! rg --recall<CR>
 endif
 
 let g:coc_global_extensions = [
@@ -211,16 +220,17 @@ let g:coc_global_extensions = [
     \'coc-explorer',
     \'coc-pyright',
     \'coc-pairs',
-    \'coc-snippets'
+    \'coc-snippets',
+    \'coc-markdownlint'
 \]
 if empty(glob(g:node_host_prog))
     Plug 'scrooloose/nerdtree'
     map <C-p> :NERDTreeToggle<CR>
     let g:NERDTreeDirArrowExpandable = '▸'
     let g:NERDTreeDirArrowCollapsible = '▾'
-    let NERDTreeWinPos="right"
-    let NERDTreeShowHidden=1
-    let NERDTreeMapOpenInTab='<ENTER>'
+    let g:NERDTreeWinPos="right"
+    let g:NERDTreeShowHidden=1
+    let g:NERDTreeMapOpenInTab='<ENTER>'
 else
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     nnoremap <C-p> :CocCommand explorer<CR>
@@ -303,7 +313,7 @@ endif
 
 Plug 'mhinz/vim-startify'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-"Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 Plug 'luochen1990/rainbow'
 Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
